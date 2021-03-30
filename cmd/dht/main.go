@@ -103,8 +103,9 @@ func main() {
 							if e.Type == routing.PeerResponse {
 								peers := e.Responses
 								for _, peer := range peers {
-									s, e := dht.RoutingTable().TryAddPeer(peer.ID, false, true)
 									dht.Host().Connect(ctx, *peer)
+									// todo original negotiation
+									s, e := dht.RoutingTable().TryAddPeer(peer.ID, false, true)
 									fmt.Printf("TryAddPeer: %+v => %t, %+v\n", peer.ID, s, e)
 								}
 							}

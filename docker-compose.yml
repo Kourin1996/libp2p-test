@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  app1:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/go/src/github.com/Kourin1996/libp2p-test
+    networks:
+      libp2p-test:
+        ipv4_address: 172.16.238.2
+    ports:
+      - 8081:8080
+    tty: true
+    command: air
+    environment:
+      GO111MODULE: "on"
+      P2P_IP: "172.16.238.2"
+      P2P_PORT: "8080"
+  app2:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/go/src/github.com/Kourin1996/libp2p-test
+    networks:
+      libp2p-test:
+        ipv4_address: 172.16.238.3
+    ports:
+      - 8082:8080
+    tty: true
+    command: air
+    environment:
+      GO111MODULE: "on"
+      P2P_IP: "172.16.238.3"
+      P2P_PORT: "8080"
+networks:
+  libp2p-test:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 172.16.238.0/24
+         gateway: 172.16.238.1
